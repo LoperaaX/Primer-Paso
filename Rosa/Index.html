@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rosa Encantada ✨</title>
+
+  <style>
+    :root{
+      --bg1:#070014;
+      --bg2:#02030a;
+
+      --glassA: rgba(160,210,255,.18);
+      --glassB: rgba(90,160,255,.12);
+      --edge: rgba(210,240,255,.36);
+
+      --base1:#7a1820;
+      --base2:#24070a;
+
+      --rose1:#ff2a6f;
+      --rose2:#ff4aa8;
+      --roseGlow: rgba(255,60,150,.55);
+
+      --stem:#1c8a4a;
+      --leaf:#24b964;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#eef;
+
+      background:
+        radial-gradient(1200px 700px at 50% 35%, rgba(120,80,255,.16), transparent 60%),
+        radial-gradient(900px 600px at 55% 60%, rgba(255,60,160,.12), transparent 55%),
+        radial-gradient(800px 500px at 40% 75%, rgba(120,210,255,.12), transparent 55%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+    }
+
+    /* neblina */
+    .mist{
+      position:fixed; inset:-30%;
+      background:
+        radial-gradient(circle at 35% 40%, rgba(200,200,255,.07), transparent 55%),
+        radial-gradient(circle at 70% 65%, rgba(255,160,210,.06), transparent 55%),
+        radial-gradient(circle at 50% 70%, rgba(120,210,255,.06), transparent 50%);
+      filter: blur(30px);
+      animation: drift 18s ease-in-out infinite alternate;
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity:.9;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-2%, -1%, 0) scale(1.02); }
+      to  { transform: translate3d( 2%,  2%, 0) scale(1.05); }
+    }
+
+    .stage{
+      position:relative;
+      width:min(560px, 95vw);
+      aspect-ratio: 1 / 1.08;
+      display:grid;
+      place-items:center;
+    }
+
+    /* aura */
+    .aura{
+      position:absolute;
+      width:94%;
+      height:86%;
+      background: radial-gradient(circle at 50% 45%, rgba(255,60,170,.14), transparent 60%);
+      filter: blur(14px);
+      mix-blend-mode: screen;
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    /* caption */
+    .caption{
+      position:absolute;
+      top:5%;
+      width:100%;
+      text-align:center;
+      font-weight:700;
+      letter-spacing:.4px;
+      opacity:.9;
+      text-shadow: 0 10px 24px rgba(0,0,0,.55);
+      user-select:none;
+      pointer-events:none;
+    }
+    .caption small{
+      display:block;
+      font-weight:550;
+      opacity:.78;
+      margin-top:6px;
+    }
+
+    /* sombra piso */
+    .shadow{
+      position:absolute;
+      bottom:6%;
+      width:70%;
+      height:10%;
+      background: radial-gradient(closest-side, rgba(0,0,0,.6), transparent 70%);
+      filter: blur(12px);
+      transform: translateY(10px);
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    /* base */
+    .base{
+      position:absolute;
+      bottom:9%;
+      width:66%;
+      height:10%;
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.10), transparent 40%),
+        linear-gradient(90deg, rgba(255,255,255,.07), transparent 35%, rgba(0,0,0,.35)),
+        linear-gradient(180deg, var(--base1), var(--base2));
+      box-shadow:
+        0 18px 35px rgba(0,0,0,.55),
+        inset 0 2px 0 rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.12);
+      transform: translateY(8px);
+    }
+
+    /* campana */
+    .dome{
+      position:absolute;
+      bottom:17%;
+      width:68%;
+      height:68%;
+      border-radius: 999px 999px 60px 60px;
+      background:
+        radial-gradient(140px 220px at 35% 26%, rgba(255,255,255,.16), transparent 65%),
+        radial-gradient(260px 300px at 70% 45%, rgba(120,200,255,.12), transparent 70%),
+        linear-gradient(180deg, var(--glassA), var(--glassB));
+      border: 1px solid var(--edge);
+      box-shadow:
+        0 28px 60px rgba(0,0,0,.40),
+        inset 0 1px 0 rgba(255,255,255,.18),
+        inset 0 -22px 35px rgba(0,0,0,.22);
+      overflow:hidden;
+      backdrop-filter: blur(7px);
+      will-change: transform;
+    }
+
+    .dome::before{
+      content:"";
+      position:absolute; inset:-12%;
+      background:
+        linear-gradient(70deg,
+          transparent 0%,
+          rgba(255,255,255,.10) 22%,
+          rgba(255,255,255,.24) 26%,
+          rgba(255,255,255,.08) 34%,
+          transparent 52%);
+      transform: translateX(-22%) rotate(2deg);
+      animation: glassShine 7.5s ease-in-out infinite;
+      opacity:.85;
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+    .dome::after{
+      content:"";
+      position:absolute;
+      inset: 6% 9% 10% 9%;
+      border-radius: 999px 999px 55px 55px;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: inset 0 0 0 1px rgba(120,200,255,.08);
+      pointer-events:none;
+    }
+    @keyframes glassShine{
+      0%{ transform: translateX(-22%) rotate(2deg); opacity:.65; }
+      50%{ transform: translateX(10%) rotate(2deg); opacity:.98; }
+      100%{ transform: translateX(-22%) rotate(2deg); opacity:.65; }
+    }
+
+    .hook{
+      position:absolute;
+      top:8%;
+      left:50%;
+      transform:translateX(-50%);
+      width:18px; height:18px;
+      border-radius:50%;
+      border:2px solid rgba(220,240,255,.58);
+      background: rgba(20,40,70,.25);
+      box-shadow: 0 0 14px rgba(140,220,255,.35);
+    }
+
+    /* capa de magia */
+    .magicLayer{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    /* sparkles */
+    .spark{
+      position:absolute;
+      width:6px; height:6px;
+      border-radius:50%;
+      background: rgba(255,255,255,.95);
+      box-shadow:
+        0 0 10px rgba(255,255,255,.7),
+        0 0 18px rgba(140,220,255,.45),
+        0 0 26px rgba(255,100,180,.25);
+      opacity:0;
+      animation: sparkle 3.2s linear infinite;
+      mix-blend-mode: screen;
+    }
+    @keyframes sparkle{
+      0%{ transform: translate3d(0,14px,0) scale(.6); opacity:0; }
+      12%{ opacity:.95; }
+      60%{ opacity:.55; }
+      100%{ transform: translate3d(0,-105px,0) scale(1.1); opacity:0; }
+    }
+
+    /* pétalo con forma más “real” */
+    .petal{
+      position:absolute;
+      width:18px; height:14px;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,.38), transparent 45%),
+        linear-gradient(180deg, rgba(255,90,180,.98), rgba(170,20,80,.96));
+      box-shadow: 0 12px 18px rgba(0,0,0,.25);
+      opacity:0;
+      transform: translate3d(0,0,0) rotate(0deg);
+      animation: fall 6s linear infinite;
+      mix-blend-mode: screen;
+
+      /* forma lágrima */
+      border-radius: 80% 20% 70% 30% / 60% 40% 60% 40%;
+    }
+
+    @keyframes fall{
+      0%   { opacity:0; transform: translate3d(var(--x), -50px, 0) rotate(var(--r)) scale(.95); }
+      10%  { opacity:.95; }
+      72%  { opacity:.55; }
+      100% { opacity:0; transform: translate3d(calc(var(--x) + var(--drift)), 320px, 0) rotate(calc(var(--r) + 360deg)) scale(1.08); }
+    }
+
+    /* ROSA más grande */
+    .roseWrap{
+      position:absolute;
+      bottom:14%;
+      left:50%;
+      transform: translateX(-50%);
+      width:78%;
+      height:78%;
+      display:grid;
+      place-items:center;
+      filter: drop-shadow(0 18px 26px rgba(0,0,0,.58));
+    }
+
+    .roseGlow{
+      position:absolute;
+      width:120%;
+      height:120%;
+      background: radial-gradient(circle at 50% 38%, rgba(255,80,170,.22), transparent 55%);
+      filter: blur(10px);
+      animation: pulse 3.8s ease-in-out infinite;
+      opacity:.98;
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity:.86; }
+      50%{ transform: scale(1.06); opacity:1; }
+    }
+
+    svg{ width:100%; height:100%; }
+
+    @media (max-width:420px){
+      .caption{ font-size:14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mist"></div>
+
+  <div class="stage">
+    <div class="aura"></div>
+
+    <div class="caption">
+      Rosa Encantada
+      <small>Sé que no es mucho, pero por algo se empieza… y es con cariño ✨</small>
+    </div>
+
+    <div class="shadow"></div>
+    <div class="base"></div>
+
+    <div class="dome" id="dome">
+      <div class="hook"></div>
+
+      <div class="magicLayer" id="magic"></div>
+
+      <div class="roseWrap">
+        <div class="roseGlow"></div>
+
+        <svg viewBox="0 0 220 220" aria-label="Rosa encantada">
+          <defs>
+            <radialGradient id="rosePetal" cx="40%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.38)"/>
+              <stop offset="35%" stop-color="var(--rose2)"/>
+              <stop offset="100%" stop-color="var(--rose1)"/>
+            </radialGradient>
+
+            <linearGradient id="stemGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="rgba(255,255,255,.20)"/>
+              <stop offset="25%" stop-color="var(--stem)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,.25)"/>
+            </linearGradient>
+
+            <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="4.2" result="blur"/>
+              <feColorMatrix in="blur" type="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 .68 0" result="glow"/>
+              <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <filter id="shadow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="6" result="b"/>
+              <feOffset dx="0" dy="6" result="o"/>
+              <feColorMatrix in="o" type="matrix"
+                values="0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 .45 0" result="s"/>
+              <feMerge>
+                <feMergeNode in="s"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- hojas -->
+          <g filter="url(#shadow)" opacity=".95">
+            <path d="M70 150 C45 148, 38 125, 52 114 C66 102, 90 112, 98 132 C90 148, 80 152, 70 150Z"
+                  fill="var(--leaf)"/>
+            <path d="M150 152 C175 150, 182 128, 168 116 C154 104, 130 114, 122 134 C130 150, 140 154, 150 152Z"
+                  fill="var(--leaf)" opacity=".92"/>
+          </g>
+
+          <!-- tallo -->
+          <path d="M110 70 C104 98, 106 126, 110 174"
+                stroke="url(#stemGrad)" stroke-width="9" stroke-linecap="round" fill="none"/>
+
+          <!-- flor (más grande) -->
+          <g filter="url(#softGlow)">
+            <path d="M110 34
+                     C92 26, 72 42, 80 64
+                     C86 82, 104 86, 110 76
+                     C116 86, 134 82, 140 64
+                     C148 42, 128 26, 110 34Z"
+                  fill="url(#rosePetal)"/>
+
+            <path d="M110 52
+                     C90 48, 76 66, 86 84
+                     C96 102, 112 102, 110 88
+                     C108 102, 124 102, 134 84
+                     C144 66, 130 48, 110 52Z"
+                  fill="url(#rosePetal)" opacity=".92"/>
+
+            <path d="M110 70
+                     C98 68, 90 82, 98 96
+                     C106 110, 114 110, 112 98
+                     C110 110, 118 110, 126 96
+                     C134 82, 126 68, 110 70Z"
+                  fill="url(#rosePetal)" opacity=".88"/>
+          </g>
+
+          <!-- destellos flor -->
+          <g opacity=".92" filter="url(#softGlow)">
+            <circle cx="90" cy="58" r="2.6" fill="rgba(255,255,255,.75)"/>
+            <circle cx="132" cy="60" r="2.0" fill="rgba(255,255,255,.65)"/>
+            <circle cx="112" cy="40" r="1.8" fill="rgba(255,255,255,.55)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const dome = document.getElementById('dome');
+    const magic = document.getElementById('magic');
+
+    // Sparkles
+    const SPARKS = 26;
+    for (let i=0;i<SPARKS;i++){
+      const s = document.createElement('div');
+      s.className = 'spark';
+      const x = 12 + Math.random()*76; // %
+      const y = 42 + Math.random()*42; // %
+      s.style.left = x + '%';
+      s.style.top  = y + '%';
+      s.style.animationDelay = (Math.random()*3.2) + 's';
+      s.style.animationDuration = (2.2 + Math.random()*2.6) + 's';
+      s.style.transform = `translate3d(0, ${10 + Math.random()*18}px, 0) scale(${0.45 + Math.random()*1.0})`;
+      magic.appendChild(s);
+    }
+
+    // Petals: que nazcan cerca de la flor (zona superior/centro)
+    const PETALS = 22;
+    for (let i=0;i<PETALS;i++){
+      const p = document.createElement('div');
+      p.className = 'petal';
+
+      const startLeft = 42 + Math.random()*16; // 42%..58%
+      const startTop  = 18 + Math.random()*10; // 18%..28%
+
+      const x = (-25 + Math.random()*50);
+      const drift = (-70 + Math.random()*140);
+      const rot = (Math.random()*360) + 'deg';
+
+      p.style.setProperty('--x', x + 'px');
+      p.style.setProperty('--drift', drift + 'px');
+      p.style.setProperty('--r', rot);
+
+      p.style.left = startLeft + '%';
+      p.style.top  = startTop + '%';
+
+      p.style.animationDelay = (Math.random()*4.5) + 's';
+      p.style.animationDuration = (4.6 + Math.random()*3.4) + 's';
+
+      p.style.width = (14 + Math.random()*14) + 'px';
+      p.style.height = (10 + Math.random()*12) + 'px';
+      p.style.filter = `blur(${Math.random()*1.0}px)`;
+
+      magic.appendChild(p);
+    }
+
+    // Parallax elegante con mouse
+    window.addEventListener('mousemove', (e)=>{
+      const r = dome.getBoundingClientRect();
+      const cx = r.left + r.width/2;
+      const cy = r.top + r.height/2;
+      const dx = (e.clientX - cx) / r.width;
+      const dy = (e.clientY - cy) / r.height;
+      dome.style.transform = `translate3d(${dx*7}px, ${dy*7}px, 0)`;
+    });
+
+    window.addEventListener('mouseleave', ()=>{
+      dome.style.transform = 'translate3d(0,0,0)';
+    });
+  </script>
+</body>
+</html>
